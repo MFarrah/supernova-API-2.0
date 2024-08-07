@@ -1,4 +1,5 @@
 package nl.mfarr.supernova.entities;
 
-public class CustomerEntity {
+public class CustomerEntity extends UserEntity {
+
 }

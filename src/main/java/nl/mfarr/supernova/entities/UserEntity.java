@@ -1,6 +1,4 @@
 package nl.mfarr.supernova.entities;
 
-
-public class TimeFrameEntity {
-
+public abstract class UserEntity {
 }
