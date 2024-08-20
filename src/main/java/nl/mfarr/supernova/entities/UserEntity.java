@@ -1,13 +1,17 @@
 package nl.mfarr.supernova.entities;
 
+import nl.mfarr.supernova.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-
+import java.util.Collections;
 
 @Entity
 public abstract class UserEntity implements UserDetails {
@@ -18,28 +22,29 @@ public abstract class UserEntity implements UserDetails {
 
     private String email;
     private String password;
-
     private String firstName;
     private String lastName;
     private String phoneNumber;
 
-    public UserEntity(Long id, String email, String password, String firstName, String lastName, String phoneNumber) {
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public UserEntity(Long id, String email, String password, String firstName, String lastName, String phoneNumber, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.role = role;
     }
 
     public UserEntity() {
-
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // return authorities
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -72,10 +77,6 @@ public abstract class UserEntity implements UserDetails {
         return true;
     }
 
-
-
-
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -100,7 +101,6 @@ public abstract class UserEntity implements UserDetails {
         this.firstName = firstName;
     }
 
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -119,5 +119,13 @@ public abstract class UserEntity implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

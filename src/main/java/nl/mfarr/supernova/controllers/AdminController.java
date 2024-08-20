@@ -1,7 +1,8 @@
 package nl.mfarr.supernova.controllers;
 
-import nl.mfarr.supernova.entities.AdminEntity;
-import nl.mfarr.supernova.repositories.AdminRepository;
+import nl.mfarr.supernova.dtos.AdminRequestDto;
+import nl.mfarr.supernova.dtos.AdminResponseDto;
+import nl.mfarr.supernova.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private AdminService adminService;
 
     @PostMapping("/create")
-    public ResponseEntity<AdminEntity> createAdmin(@RequestBody AdminEntity admin) {
-        AdminEntity savedAdmin = adminRepository.save(admin);
-        return ResponseEntity.ok(savedAdmin);
+    public ResponseEntity<AdminResponseDto> createAdmin(@RequestBody AdminRequestDto adminRequestDto) {
+        AdminResponseDto adminResponseDto = adminService.createAdmin(adminRequestDto);
+        return ResponseEntity.ok(adminResponseDto);
     }
 }

@@ -3,6 +3,7 @@ package nl.mfarr.supernova.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import nl.mfarr.supernova.entities.UserEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,9 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        if (userDetails instanceof UserEntity) {
+            claims.put("role", ((UserEntity) userDetails).getRole().name());
+        }
         return createToken(claims, userDetails.getUsername());
     }
 
